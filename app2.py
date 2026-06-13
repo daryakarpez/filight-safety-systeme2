@@ -142,14 +142,14 @@ analyze_btn = st.sidebar.button("АНАЛІЗУВАТИ БЕЗПЕКУ", use_con
 
 if analyze_btn:
     
-    env_path = Path(__file__).resolve().parent / 'config' / '.env'
+    env_path = Path(__file__).resolve().parent / 'config.env'
     
     load_dotenv(dotenv_path=env_path)
     
     api_key = os.environ.get("OPENWEATHER_API_KEY")
     
     if not api_key:
-        st.error("❌ Помилка: Не вдалося знайти API-ключ OpenWeather у файлі config/.env. Перевірте конфігурацію.")
+        st.error("❌ Помилка: Не вдалося знайти API-ключ OpenWeather у файлі config.env. Перевірте конфігурацію.")
         st.stop() 
 
     url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric&lang=ua"
