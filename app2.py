@@ -4,6 +4,9 @@ import requests
 import streamlit.components.v1 as components
 from datetime import datetime, timedelta
 import plotly.graph_objects as go  
+import os
+from pathlib import Path
+from dotenv import load_dotenv  
 
 # НАЛАШТУВАННЯ ЗОВНІШНЬОГО ВИГЛЯДУ ПРОГРАМИ
 
@@ -138,10 +141,18 @@ analyze_btn = st.sidebar.button("АНАЛІЗУВАТИ БЕЗПЕКУ", use_con
 # ОСНОВНИЙ ЕКРАН РЕЗУЛЬТАТИ
 
 if analyze_btn:
-    # Ключ для доступу до сервісу погоди OpenWeather
-    api_key = "32b44eeafe4783aa188cc888cc0331c6"
-    url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric&lang=ua"
     
+    env_path = Path(__file__).resolve().parent / 'config' / '.env'
+    
+    load_dotenv(dotenv_path=env_path)
+    
+    api_key = os.environ.get("OPENWEATHER_API_KEY")
+    
+    if not api_key:
+        st.error("❌ Помилка: Не вдалося знайти API-ключ OpenWeather у файлі config/.env. Перевірте конфігурацію.")
+        st.stop() 
+
+    url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric&lang=ua"
     try:
         # Запитує дані з інтернету
         res = requests.get(url).json()
