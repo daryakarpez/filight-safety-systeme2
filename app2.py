@@ -1,6 +1,6 @@
 import streamlit as st
 import json
-import requests2
+import requests
 import streamlit.components.v1 as components
 from datetime import datetime, timedelta
 import plotly.graph_objects as go  
